@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>jquery.dataset Test</title>
+<link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="http://code.jquery.com/qunit/git/qunit.js"></script>
+
+<script src="jquery.dataset.js"></script>
+</head>
+<body>
+<h1 id="qunit-header">jquery.dataset Test</h1>
+<h2 id="qunit-banner"></h2>
+<div id="qunit-testrunner-toolbar"></div>
+<h2 id="qunit-userAgent"></h2>
+<ol id="qunit-tests"></ol>
+<div id="qunit-fixture">
+	<div id="dataset-test" data-foo="foo" data-foo-bar="foo-bar"></div>
+</div>
+
+<script>
+$(function() {
+
+module('$.fn.dataset');
+
+test('#1', function() {
+	var target = $('#dataset-test');
+
+	equal(target.dataset('foo'), 'foo', 'get data-foo');
+	equal(target.dataset('fooBar'), 'foo-bar', 'get data-foo-bar (camel case)');
+	equal(target.dataset('foo-bar'), 'foo-bar', 'get data-foo-bar (dash)');
+
+	strictEqual(target.dataset('bar', 'bar'), target, 'return this');
+	equal(target.dataset('bar'), 'bar', 'set bar');
+
+	target.dataset('bar-baz', 'bar-baz1');
+	equal(target.dataset('barBaz'), 'bar-baz1', 'set bar-baz');
+
+	target.dataset('barBaz', 'bar-baz2');
+	equal(target.dataset('barBaz'), 'bar-baz2', 'set barBaz');
+
+	strictEqual(target.dataset('foo', null), target, 'return this');
+	strictEqual(target.dataset('foo'), undefined, 'remove foo');
+
+	strictEqual(target.dataset({
+		'number'   : 1,
+		'string'   : 'string',
+		'undefined': undefined,
+		'array'    : [1, 2, 3],
+		'regexp'   : /foo/,
+		'function' : function(index, attr) { return 'function!' }
+	}), target, 'return this');
+	strictEqual(target.dataset('number'), '1', 'set as object (number)');
+	strictEqual(target.dataset('string'), 'string', 'set as object (string)');
+	strictEqual(target.dataset('undefined'), undefined, 'set as object (undefined)');
+	strictEqual(target.dataset('array'), '1,2,3', 'set as object (array)');
+	strictEqual(target.dataset('regexp'), '/foo/', 'set as object (regexp)');
+	strictEqual(target.dataset('function'), 'function!', 'set as object (function)');
+});
+
+test('#2', function() {
+	var target = $('#dataset-test');
+
+	target.dataset({'foo': null});
+	strictEqual(target.dataset('foo'), undefined, 'set as object (null = delete)');
+});
+
+});
+</script>
+</body>
+</html>
