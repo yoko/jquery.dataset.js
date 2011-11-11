@@ -4,7 +4,7 @@ $.fn.dataset = function(key, value) {
 	var name;
 
 	if (key === undefined) {
-		if (this[0].nodeType != 1) return this;
+		if (!this.length || this[0].nodeType != 1) return this;
 
 		var data = {},
 			attrs = this[0].attributes, attr;

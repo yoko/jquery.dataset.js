@@ -17,6 +17,8 @@
 <ol id="qunit-tests"></ol>
 <div id="qunit-fixture">
 	<div id="dataset-test" data-foo="foo" data-foo-bar="foo-bar"></div>
+	<div class="dataset-test" data-foo="FOO-1"></div>
+	<div class="dataset-test" data-foo="FOO-2"></div>
 </div>
 
 <script>
@@ -25,11 +27,20 @@ $(function() {
 module('$.fn.dataset');
 
 test('#1', function() {
+	var target = $();
+
+	equal(target.dataset('foo'), undefined, 'get foo in 0 length object');
+	equal(target.dataset(), target, 'get all in 0 length object');
+	equal($('.dataset-test').dataset('foo'), 'FOO-1', 'pick first object');
+});
+
+test('#2', function() {
 	var target = $('#dataset-test');
 
 	equal(target.dataset('foo'), 'foo', 'get data-foo');
 	equal(target.dataset('fooBar'), 'foo-bar', 'get data-foo-bar (camel case)');
 	equal(target.dataset('foo-bar'), 'foo-bar', 'get data-foo-bar (dash)');
+	deepEqual(target.dataset(), {foo: 'foo', fooBar: 'foo-bar'}, 'get all');
 
 	strictEqual(target.dataset('bar', 'bar'), target, 'return this');
 	equal(target.dataset('bar'), 'bar', 'set bar');
@@ -59,7 +70,7 @@ test('#1', function() {
 	strictEqual(target.dataset('function'), 'function!', 'set as object (function)');
 });
 
-test('#2', function() {
+test('#3', function() {
 	var target = $('#dataset-test');
 
 	target.dataset({'foo': null});
