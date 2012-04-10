@@ -13,7 +13,7 @@ $.fn.dataset = function(key, value) {
 			attr = attrs[i];
 			name = attr.name;
 			if (name.indexOf('data-') === 0) {
-				data[$.camelCase(name.slice(5))] = attr.value;
+				data[$.fn.dataset.camelize(name.slice(5))] = attr.value;
 			}
 		}
 		return data;
@@ -27,14 +27,23 @@ $.fn.dataset = function(key, value) {
 	}
 	else {
 		name = 'data-' + $.fn.dataset.dashize(key);
-		return this.attr(name, value);
+		// [1.7.2] undefined な value を渡すと挙動が変わる（arguments.length を見るようになった）ので事前に値を確認して渡さないように
+		return value === undefined ? this.attr(name) : this.attr(name, value);
 	}
 };
 
-$.fn.dataset.dashizeDelimiter = /([a-z])([A-Z])/g;
+var dashize_pattern = /([a-z])([A-Z])/g,
+	camelize_pattern = /-([a-z]|[0-9])/ig;
 
 $.fn.dataset.dashize = function(value) {
-	return value.replace($.fn.dataset.dashizeDelimiter, '$1-$2').toLowerCase();
+	return value.replace(dashize_pattern, '$1-$2').toLowerCase();
+};
+
+$.fn.dataset.camelize = function(str, upper) {
+	str = str.replace(camelize_pattern, function(_, letter) {
+		return letter.toUpperCase();
+	});
+	return upper ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 };
 
 })(jQuery);
