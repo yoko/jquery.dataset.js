@@ -1,0 +1,27 @@
+{
+  "name": "dataset",
+  "title": "jQuery Dataset",
+  "description": "HTML 5 dataset wrapper.",
+  "keywords": [
+    "dataset",
+    "html 5"
+  ],
+  "version": "1.0.2",
+  "author": {
+    "name": "yksk",
+    "url": "https://github.com/yoko"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/yoko/jquery.dataset.js/LICENSE.txt"
+    }
+  ],
+  "bugs": "https://github.com/yoko/jquery.dataset.js/issues",
+  "homepage": "https://github.com/yoko/jquery.dataset.js",
+  "docs": "https://github.com/yoko/jquery.dataset.js",
+  "download": "https://github.com/yoko/jquery.dataset.js",
+  "dependencies": {
+    "jquery": ">=1.6"
+  }
+}
