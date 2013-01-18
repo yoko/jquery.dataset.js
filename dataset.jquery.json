@@ -4,9 +4,9 @@
   "description": "HTML 5 dataset wrapper.",
   "keywords": [
     "dataset",
-    "html 5"
+    "html5"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": {
     "name": "yksk",
     "url": "https://github.com/yoko"
